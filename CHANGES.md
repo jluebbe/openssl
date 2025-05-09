@@ -47,6 +47,21 @@ OpenSSL 3.5
 
    *Igor Ustinov*
 
+ * Add `CMS_VERIFY_PARTIAL` flag to `CMS_verify()` and `-verify_partial` option
+   to `openssl cms -verify`.
+
+   If this flag is set, the call is successful also if not all, but at least
+   one of the individual signatures can be verified (perhaps due to CAs missing
+   from the local store, expired certificates, or unsupported algorithms). The
+   application would then call `CMS_get0_signers()` and check if the set of
+   valid signatures satisfies its policy.
+
+   To access detailed verification results, the new functions
+   `CMS_SignerInfo_get_verification_result()` and
+   `CMS_SignerInfo_get0_signer_cert()` can be used.
+
+   *Jan Lübbe*
+
  * Fixed CMS `AuthEnvelopedData` processing may accept forged messages.
 
    Severity: Moderate
